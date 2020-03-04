@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--
+
+ Copyright 2020 XEBIALABS
+
+ Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+-->
+<synthetic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.xebialabs.com/deployit/synthetic" xsi:schemaLocation="http://www.xebialabs.com/deployit/synthetic synthetic.xsd">
+  <!-- Http Connections -->
+  <type type="elasticsearch.Server" extends="configuration.HttpConnection" label="Elasticsearch: Server">
+    <property name="authenticationMethod" kind="enum" enum-class="com.xebialabs.xlrelease.domain.configuration.HttpConnection$AuthenticationMethod" default="None">
+      <enum-values>
+        <value>Basic</value>
+        <value>None</value>
+      </enum-values>
+    </property>
+    <property name="domain" hidden="true" default="NOTUSED"/>
+  </type>
+  <!-- Python Scripts -->
+  <type type="elasticsearch.Task" extends="xlrelease.PythonScript" virtual="true">
+    <property name="iconLocation" hidden="true" default="elasticsearch/elasticsearch.png"/>
+    <property name="taskColor" hidden="true" default="#F990C6"/>
+    <property name="server" category="input" kind="ci" referenced-type="elasticsearch.Server" required="true"/>
+    <property name="username" category="input" required="false" description="Optionally, override the username used to connect to the server"/>
+    <property name="password" category="input" required="false" password="true" description="Optionally, override the password used to connect to the server"/>
+  </type>
+  <!-- Tasks -->
+  <type type="elasticsearch.CheckHits" extends="elasticsearch.Task">
+    <property name="index" category="input" description="Elasticsearch index"/>
+    <property name="query" category="input" required="false" description="Optionally, provide a query using the Lucene query string syntax"/>
+    <property name="timePeriod" category="input" kind="integer" description="The number of seconds to inspect hit response codes"/>
+    <property name="acceptable1xx" category="input" kind="integer" default="-1" label="Acceptable 1xx Percent" description="The maximum permissible percentage of responses with http status code in the range 100-199.  For no limit, use a value of -1."/>
+    <property name="acceptable2xx" category="input" kind="integer" default="-1" label="Acceptable 2xx Percent" description="The maximum permissible percentage of responses with http status code in the range 200-299.  For no limit, use a value of -1."/>
+    <property name="acceptable3xx" category="input" kind="integer" default="-1" label="Acceptable 3xx Percent" description="The maximum permissible percentage of responses with http status code in the range 300-399.  For no limit, use a value of -1."/>
+    <property name="acceptable4xx" category="input" kind="integer" default="5" label="Acceptable 4xx Percent" description="The maximum permissible percentage of responses with http status code in the range 400-499.  For no limit, use a value of -1."/>
+    <property name="acceptable5xx" category="input" kind="integer" default="0" label="Acceptable 5xx Percent" description="The maximum permissible percentage of responses with http status code in the range 500-599.  For no limit, use a value of -1."/>
+    <property name="timestampField" category="input" default="@timestamp" description="The name of the field for the timestamp"/>
+    <property name="responseField" category="input" default="response" description="The name of the field for the HTTP response status code"/>
+    <property name="processed" category="script" kind="integer" required="false"/>
+    <property name="lastHits" category="script" kind="set_of_string" required="false"/>
+    <property name="hits1xx" category="script" kind="integer" required="false"/>
+    <property name="hits2xx" category="script" kind="integer" required="false"/>
+    <property name="hits3xx" category="script" kind="integer" required="false"/>
+    <property name="hits4xx" category="script" kind="integer" required="false"/>
+    <property name="hits5xx" category="script" kind="integer" required="false"/>
+    <property name="endTime" category="script" required="false"/>
+  </type>
+</synthetic>
