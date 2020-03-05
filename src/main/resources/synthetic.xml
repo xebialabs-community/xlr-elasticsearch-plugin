@@ -48,4 +48,33 @@
     <property name="hits5xx" category="script" kind="integer" required="false"/>
     <property name="endTime" category="script" required="false"/>
   </type>
+  <!-- Tiles -->
+    <type type="elasticsearch.Tile" extends="xlrelease.Tile" virtual="true">
+        <property default="release,folder,global" hidden="true" name="supportedScopes" kind="list_of_string"/>
+        <property name="server" category="input" required="true" referenced-type="elasticsearch.Server" kind="ci"/>
+        <property name="username" category="input" required="false"
+                  description="Optionally, override the username used to connect to the server"/>
+        <property name="password" category="input" password="true" required="false"
+                  description="Optionally, override the password used to connect to the server"/>
+    </type>
+    <type type="elasticsearch.HitsTile" label="Elasticsearch Hits" extends="elasticsearch.Tile"
+          description="Shows application hits over time, including the associated HTTP response codes">
+        <property name="uri" hidden="true" default="hits/tile.html"/>
+        <property name="title" description="Tile title" default="Webpage Hits"/>
+        <property name="width" kind="integer" default="2"/>
+        <property name="height" kind="integer" default="2"/>
+        <property name="index" category="input" description="Elasticsearch index"/>
+        <property name="query" category="input" required="false" description="Optionally, provide a query using the Lucene query string syntax"/>
+        <property name="timestampField" category="input" default="@timestamp" description="The name of the field for the timestamp"/>
+        <property name="responseField" category="input" default="response" description="The name of the field for the HTTP response status code"/>
+        <property name="units" category="input" kind="enum" default="hour" description="The unit of aggregation for hits">
+          <enum-values>
+            <value>minute</value>
+            <value>hour</value>
+            <value>day</value>
+          </enum-values>
+        </property>
+        <property name="maxCount" category="input" kind="integer" default="1000" required="true"
+                  description="Maximum number of hits to plot."/>
+    </type>
 </synthetic>
