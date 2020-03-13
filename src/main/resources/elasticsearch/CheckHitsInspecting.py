@@ -37,15 +37,15 @@ if response.isSuccessful():
     hits = json.loads(response.getResponse())["hits"]["hits"]
     for hit in hits:
         if hit["_id"] not in lastHits:
-            if int(hit["_source"]["response"]) < 200:
+            if int(hit["_source"][responseField]) < 200:
                 hits1xx += 1
-            elif int(hit["_source"]["response"]) < 300:
+            elif int(hit["_source"][responseField]) < 300:
                 hits2xx += 1
-            elif int(hit["_source"]["response"]) < 400:
+            elif int(hit["_source"][responseField]) < 400:
                 hits3xx += 1
-            elif int(hit["_source"]["response"]) < 500:
+            elif int(hit["_source"][responseField]) < 500:
                 hits4xx += 1
-            elif int(hit["_source"]["response"]) < 600:
+            elif int(hit["_source"][responseField]) < 600:
                 hits5xx += 1
             processed += 1
     lastHits = [hit["_id"] for hit in hits]
