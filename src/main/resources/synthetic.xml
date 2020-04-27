@@ -48,6 +48,18 @@
     <property name="hits5xx" category="script" kind="integer" required="false"/>
     <property name="endTime" category="script" required="false"/>
   </type>
+  <type type="elasticsearch.CheckResponseTimes" extends="elasticsearch.Task">
+    <property name="index" category="input" description="Elasticsearch index"/>
+    <property name="query" category="input" required="false" description="Optionally, provide a query using the Lucene query string syntax"/>
+    <property name="timePeriod" category="input" kind="integer" description="The number of seconds to inspect hit response times"/>
+    <property name="threshold" category="input" kind="integer" description="The maximum permissible average response time, in milliseconds."/>
+    <property name="timestampField" category="input" default="@timestamp" description="The name of the field for the timestamp"/>
+    <property name="responseTimeField" category="input" default="time_duration" description="The name of the field for the response time"/>
+    <property name="processed" category="script" kind="integer" required="false"/>
+    <property name="lastHits" category="script" kind="set_of_string" required="false"/>
+    <property name="totalResponseTime" category="script" kind="integer" required="false"/>
+    <property name="endTime" category="script" required="false"/>
+  </type>
   <!-- Tiles -->
     <type type="elasticsearch.Tile" extends="xlrelease.Tile" virtual="true">
         <property default="release,folder,global" hidden="true" name="supportedScopes" kind="list_of_string"/>
