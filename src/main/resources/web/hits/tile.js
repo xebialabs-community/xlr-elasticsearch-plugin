@@ -79,7 +79,7 @@ window.addEventListener("xlrelease.load", function() {
             const data = getDataSortedByResponse();
             return Object.keys(data).map((respRange, i) => {
                 return {
-                    name: `Hits ${labels[i]}: `,
+                    name: `Hits ${labels[i]}`,
                     type: 'line',
                     smooth: false,
                     symbol: 'none',
